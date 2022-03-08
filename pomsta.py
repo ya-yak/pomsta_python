@@ -31,7 +31,9 @@ def onButton1ClickThread():
 
     t = datetime.datetime.now()
 
-    if (re.fullmatch(r'[a-z]+\.[a-z]{2,3}', comboBox1.get()) and endHour.get() * 3600 + endMin.get() * 60 > t.hour * 3600 + t.minute * 60):
+    if (re.fullmatch(r'[a-z]+\.[a-z]+(/?.*)*|[a-z]+\.[a-z]+\.[a-z](/?.*)*', comboBox1.get())
+    and re.fullmatch(r'\d{1,2}', int(endHour.get())) and re.fullmatch(r'\d{1,2}', int(endMin.get()))
+    and int(endHour.get()) * 3600 + int(endMin.get()) * 60 > t.hour * 3600 + t.minute * 60):
         
         _thread.start_new_thread(lambda : os.system(f'docker run --name pomsta -ti --rm alpine/bombardier -c 1000 -d {(int(hourSB.get()) - t.hour) * 3600 + (int(minSB.get()) - t.minute) * 60}s -l https://{comboBox1.get()}'))
         
@@ -50,11 +52,11 @@ def onButton1ClickThread():
         startTime = datetime.datetime.now().hour * 3600 + datetime.datetime.now().minute * 60 + datetime.datetime.now().second
         currentTime = startTime
 
-        while (currentTime < endHour.get() * 3600 + endMin.get() * 60 and running):
+        while (currentTime < int(endHour.get()) * 3600 + int(endMin.get()) * 60 and running):
             
             currentTime = datetime.datetime.now().hour * 3600 + datetime.datetime.now().minute * 60 + datetime.datetime.now().second
         
-            progress = (currentTime - startTime) * 100.0 / (endHour.get() * 3600 + endMin.get() * 60 - startTime)
+            progress = (currentTime - startTime) * 100.0 / (int(endHour.get()) * 3600 + int(endMin.get()) * 60 - startTime)
 
             progressbar['value'] = progress
 
@@ -111,8 +113,8 @@ if (__name__ == '__main__'):
 
     root.title('Pomsta!')
 
-    endHour = IntVar(value=0)
-    endMin = IntVar(value=0)
+    endHour = StringVar(value = "")
+    endMin = StringVar(value = "")
 
     hourSB = Spinbox(
 
