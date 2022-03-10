@@ -10,3 +10,5 @@ A 'Python' version.
 - Download 'Pomsta!'
 - Enter the URL of prefered website and set time till the program must work
 - Click 'Kill' button
+
+#stoprussia

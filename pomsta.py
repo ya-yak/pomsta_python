@@ -8,6 +8,7 @@ import datetime
 import time
 import _thread
 import os
+import pyglet
 
 startTime = datetime.datetime.now().hour * 3600 + datetime.datetime.now().minute * 60 + datetime.datetime.now().second
 currentTime = startTime
@@ -101,7 +102,9 @@ if (__name__ == '__main__'):
 
     root = Tk()
 
-    f = Font(family='Andika', size=9)
+    pyglet.font.add_file('Andika-Regular.ttf')
+
+    f = Font(family = 'Andika', size = 9)
 
     root.geometry('262x135')
 
